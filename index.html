@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Sister!</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Anime.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #1a1c29 0%, #08090d 100%);
+      color: #fff;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      perspective: 1000px;
+      height: 100vh;
+    }
+
+    /* Glowing Ambient Lights */
+    .glow-bg {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 75, 75, 0.15);
+      filter: blur(120px);
+      border-radius: 50px;
+      z-index: 1;
+      animation: floatGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatGlow {
+      0% {
+        transform: translate(-50px, -50px) scale(1);
+      }
+
+      100% {
+        transform: translate(50px, 50px) scale(1.2);
+      }
+    }
+
+    /* Music Control Floating Button */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 117, 140, 0.6);
+      color: #ff758c;
+      padding: 10px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 100;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .music-btn:hover {
+      background: #ff758c;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 117, 140, 0.8);
+    }
+
+    /* Main Content Container */
+    .content-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .birthday-banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .badge-tag {
+      background: linear-gradient(135deg, rgba(255, 117, 140, 0.2), rgba(255, 126, 179, 0.2));
+      border: 1px solid rgba(255, 117, 140, 0.5);
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: #ffbaba;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      box-shadow: 0 0 15px rgba(255, 117, 140, 0.3);
+    }
+
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(to right, #fff 20%, #ff758c 50%, #ff7eb3 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+      text-align: center;
+      text-transform: uppercase;
+      filter: drop-shadow(0 0 30px rgba(255, 117, 140, 0.7));
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* 3D Carousel Layout */
+    .drag-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-style: preserve-3d;
+      margin: 10px 0;
+      height: 230px;
+    }
+
+    .spin-container {
+      width: 150px;
+      height: 210px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .spin-container img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(255, 75, 75, 0.3);
+      border: 2px solid rgba(255, 117, 140, 0.6);
+    }
+
+    /* Control Buttons */
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      z-index: 50;
+    }
+
+    .btn-modern {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 117, 140, 0.6);
+      color: #ff758c;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-modern:hover {
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(255, 117, 140, 0.8);
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    /* Flying Balloons Styling */
+    .flying-balloon {
+      position: absolute;
+      bottom: -100px;
+      font-size: 40px;
+      z-index: 5;
+      pointer-events: none;
+      animation: flyUp 5s linear infinite;
+    }
+
+    @keyframes flyUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* Sundar Card System Modal Popup */
+    .card-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 9, 13, 0.85);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    .card-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .wish-card {
+      background: linear-gradient(145deg, #1e2230, #12151c);
+      border: 2px solid rgba(255, 117, 140, 0.8);
+      border-radius: 28px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(255, 75, 75, 0.4);
+    }
+
+    .wish-card h2 {
+      color: #ff758c;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .wish-card p {
+      color: #e2e8f0;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .card-btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow-bg" style="top: 10%; left: 15%;"></div>
+  <div class="glow-bg" style="bottom: 10%; right: 15%;"></div>
+
+  <button class="music-btn" id="musicToggleBtn">🎵 Play Music</button>
+  <audio id="bgMusic" loop src="https://www.bensound.com/bensound-music/bensound-cute.mp3"></audio>
+
+  <!-- Balloons Container -->
+  <div id="balloon-container"></div>
+
+  <div class="content-layer">
+    <div class="birthday-banner">
+      <div class="badge-tag">🎉 Special Celebration 🎉</div>
+      <h1 class="title">HAPPY BIRTHDAY</h1>
+    </div>
+
+    <p class="subtitle">TO MY DEAREST SISTER ❤️</p>
+
+    <!-- 3D Photo Carousel -->
+    <div class="drag-container" id="drag-container">
+      <div class="spin-container" id="spin-container">
+        <img src="Screenshot 2026-09-04 225247.png" alt="Birthday celebration" style="transform: rotateY(0deg) translateZ(200px);">
+        <img src="Screenshot 2026-09-04 225341.png" alt="Birthday celebration"
+          style="transform: rotateY(90deg) translateZ(200px);">
+        <img src="Screenshot 2026-09-04 225414 copy.png" style="transform: rotateY(180deg) translateZ(200px);">
+        <img src="Screenshot 2026-09-04 225510 copy.png" style="transform: rotateY(270deg) translateZ(200px);">
+      </div>
+    </div>
+
+    <!-- Interactive Buttons including Cake Cut Button -->
+    <div class="button-group">
+      <button class="btn-modern" id="prevBtn">❮ Prev</button>
+      <button class="btn-modern" id="cutCakeBtn">Cut Cake 🎂</button>
+      <button class="btn-modern" id="btnAction">SURPRISE CARD ✨</button>
+      <button class="btn-modern" id="nextBtn">Next ❯</button>
+    </div>
+  </div>
+
+  <!-- Sundar Card Modal -->
+  <div class="card-modal" id="cardModal">
+    <div class="wish-card">
+      <h2 id="cardTitle">✨ Special Wish #1 ✨</h2>
+      <p id="wishText">"Happy Birthday to the world's most loving and caring sister! May all your dreams come true and
+        may you keep smiling always. ❤️"</p>
+      <div class="card-actions">
+        <button class="card-btn secondary" id="nextWishBtn">Next Wish ➔</button>
+        <button class="card-btn" id="closeCardBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Music Toggle
+    const musicBtn = document.getElementById('musicToggleBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        bgMusic.play().catch(e => console.log("Audio play blocked"));
+        musicBtn.innerText = "🔇 Pause Music";
+        isPlaying = true;
+      } else {
+        bgMusic.pause();
+        musicBtn.innerText = "🎵 Play Music";
+        isPlaying = false;
+      }
+    });
+
+    // Carousel Rotation
+    let spinContainer = document.getElementById('spin-container');
+    let currentAngle = 0;
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentAngle -= 90;
+      spinContainer.style.transform = `rotateY(${currentAngle}deg)`;
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentAngle += 90;
+      spinContainer.style.transform = `rotateY(${currentAngle}deg)`;
+    });
+
+    // Cake Cut Button & Flying Balloons Trigger
+    const cutCakeBtn = document.getElementById('cutCakeBtn');
+    const balloonContainer = document.getElementById('balloon-container');
+    const balloonEmojis = ['🎈', '🔴', '🔵', '🟢', '🟡', '🟣', '🟠'];
+
+    cutCakeBtn.addEventListener('click', () => {
+      // Change button text temporarily
+      cutCakeBtn.innerText = "Cake Cut! 🥳";
+      setTimeout(() => {
+        cutCakeBtn.innerText = "Cut Cake 🎂";
+      }, 3000);
+
+      // Spawn multiple flying balloons
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const balloon = document.createElement('div');
+          balloon.classList.add('flying-balloon');
+          balloon.innerText = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+          balloon.style.left = Math.random() * window.innerWidth + 'px';
+          balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
+          balloonContainer.appendChild(balloon);
+
+          // Remove after animation completes
+          setTimeout(() => {
+            balloon.remove();
+          }, 5000);
+        }, i * 100);
+      }
+    });
+
+    // Card Modal Logic
+    const cardModal = document.getElementById('cardModal');
+    const btnAction = document.getElementById('btnAction');
+    const closeCardBtn = document.getElementById('closeCardBtn');
+    const nextWishBtn = document.getElementById('nextWishBtn');
+    const wishText = document.getElementById('wishText');
+    const cardTitle = document.getElementById('cardTitle');
+
+    const wishes = [
+      { title: "✨ Special Wish #1 ✨", text: "\"Happy Birthday to the world's most loving and caring sister! May all your dreams come true and may you keep smiling always. ❤️\"" },
+      { title: "🌟 Special Wish #2 🌟", text: "\"You are not just my sister, but my best friend who always stands by me through thick and thin. Thank you for always supporting me! 🎉\"" },
+      { title: "💖 Special Wish #3 💖", text: "\"May your life be filled with endless happiness, success, and all the things you love. Have an amazing birthday celebration! 🎂✨\"" }
+    ];
+
+    let currentWishIndex = 0;
+
+    btnAction.addEventListener('click', () => {
+      currentWishIndex = 0;
+      updateWishContent();
+      cardModal.classList.add('active');
+    });
+
+    nextWishBtn.addEventListener('click', () => {
+      currentWishIndex = (currentWishIndex + 1) % wishes.length;
+      updateWishContent();
+    });
+
+    function updateWishContent() {
+      cardTitle.innerText = wishes[currentWishIndex].title;
+      wishText.innerText = wishes[currentWishIndex].text;
+    }
+
+    closeCardBtn.addEventListener('click', () => {
+      cardModal.classList.remove('active');
+    });
+  </script>
+</body>
+
+</html>
